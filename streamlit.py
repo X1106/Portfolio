@@ -73,7 +73,7 @@ st.subheader('資料2.データ取り込みからデータの可視化')
 """
 2019年度の全国ごみ排出量をCSVから読み込み整えたうえで可視化
 """
-with open('data/ごみ排出量＿東日本.csv') as f:
+with open('./data/ごみ排出量＿東日本.csv') as f:
     reader = csv.reader(f)
     east_garbage = [row for row in reader]
     
