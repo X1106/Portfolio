@@ -152,7 +152,7 @@ with col4:
     st.table(height_df)
 west._df = st.checkbox('2019年東日本.DataFrame')
 if west._df == True:
-    st.write(map2019[['2019年度']])
+    st.write(east2019.loc[['2019年度']])
 
 west._df = st.checkbox('2019年西日本.DataFrame')
 if west._df == True:
