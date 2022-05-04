@@ -46,7 +46,7 @@ df.iloc[2,1]=22711
 df["合格率"]=df["合格者数"]/df['実受験者数']    
 df
 
-st.text('★実受験者数と合格者数の割合kを可視化してみる')
+st.text('★実受験者数と合格者数の割合を可視化してみる')
 fig = plt.figure(figsize=(23,13))
 ax = plt.axes()
 
