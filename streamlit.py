@@ -74,16 +74,12 @@ st.subheader('資料2.データ取り込みからデータの可視化')
 2019年度の全国ごみ排出量をCSVから読み込み整えたうえで可視化
 """
 
-import csv 
-file = './data/ごみ排出量＿東日本' 
-f = open(file,'r') 
-west_garbage = csv.reader(f) 
-for row in rows: 
-f.close() 
 
+garbage = pd.read_csv('/Users/takanokoutarou/Documents/Portfolio/data/ごみ排出量全国.csv')
 west_garbage = pd.read_csv('./data/ごみ排出量＿西日本.csv')
-garbage = pd.read_csv('./data/ごみ排出量.csv')
 lat_lon= pd.read_csv('./data/緯度_経度.csv')
+east_garbage = pd.read_csv('./data/ごみ排出量＿東日本.csv')
+
 
 map = pd.merge(garbage,lat_lon, on='県名')
 map2=map.set_index('時点')
