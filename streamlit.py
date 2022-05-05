@@ -157,7 +157,7 @@ with col3:
     plt.show()
     st.pyplot(fig)
 with col4:
-    ★東西の全国比率 
+    st.text('★東西の全国比率') 
     st.table(height_df)
     st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
     
