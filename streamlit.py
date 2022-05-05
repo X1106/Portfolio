@@ -75,8 +75,10 @@ st.subheader('資料2.データ取り込みからデータの可視化')
 """
 
 import os
-file = os.path.abspath('./data/ごみ排出量全国.csv')
-garbage = pd.read_csv(file)
+import pathlib
+
+p_abs = pathlib.Path('/Users/takanokoutarou/Documents/App_Srteamlit/data/ごみ排出量全国.csv')
+garbage = pd.read_csv(p_abs)
 
 file2 = os.path.abspath('./data/ごみ排出量＿西日本.csv')
 west_garbage = pd.read_csv(file2)
