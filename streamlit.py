@@ -83,12 +83,12 @@ my_file = path+'./data/ごみ排出量全国.csv'
 
 url = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%93%E3%82%99%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%E5%85%A8%E5%9B%BD.csv'
 garbage = pd.read_csv(url)
-
 url2 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%94%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%EF%BC%BF%E6%9D%B1%E6%97%A5%E6%9C%AC.csv'
 east_garbage = pd.read_csv(url2)
-
-west_garbage= pd.read_csv('data/ごみ排出量＿西日本.csv')
-lat_lon= pd.read_csv('./data/緯度_経度.csv')
+url3 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%94%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%EF%BC%BF%E8%A5%BF%E6%97%A5%E6%9C%AC.csv'
+west_garbage = pd.read_csv(url3)
+url4 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E7%B7%AF%E5%BA%A6_%E7%B5%8C%E5%BA%A6.csv'
+lat_lon = pd.read_csv(url4)
 
 
 map = pd.merge(garbage,lat_lon, on='県名')
