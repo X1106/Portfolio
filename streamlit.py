@@ -8,19 +8,20 @@ import os
 import base64
 
 #データの詳細を確認する際に使用いたしました
-def check(gulaf):
-    print(':::::::::データサイズ:::::\n', gulaf.shape)
-    print('::::::::: index:::::::::\n', gulaf.index)
-    print('::::::::: カラム名:::::::::\n', gulaf.columns)
-    print('::::::::: データ型:::::::::\n', gulaf.dtypes) 
+#def check(gulaf):
+#    print(':::::::::データサイズ:::::\n', gulaf.shape)
+#    print('::::::::: index:::::::::\n', gulaf.index)
+#    print('::::::::: カラム名:::::::::\n', gulaf.columns)
+#    print('::::::::: データ型:::::::::\n', gulaf.dtypes) 
+#編集中
+#def get_binary_file_downloader_html(bin_file, file_label='File'):
+#    with open(bin_file, 'rb') as f:
+#        data = f.read()
 
-def get_binary_file_downloader_html(bin_file, file_label='File'):
-    with open(bin_file, 'rb') as f:
-        data = f.read()
-
-    bin_str = base64.b64encode(data).decode()
-    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
-    return href
+#    bin_str = base64.b64encode(data).decode()
+#    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
+#    return href
+#st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
 
 st.title('Portfolio参考資料')
 """
@@ -34,8 +35,7 @@ csv読み込み/データの読み込み/データ参照/並び替え/欠損値�
 グループ化/データマージデータの可視化/など
 
 ※使用した事前処理や可視化に伴うソースコードは
-エントリーメールに添付させていただました。
-ご確認頂けると幸いです。
+GitHubをご確認頂けると幸いです。
 """
 st.subheader('資料１.パンダスを使ってみる')
 st.text('★簿記二級受験者情報から適当に抜粋した情報の変更/追加')
@@ -43,7 +43,7 @@ st.text('★簿記二級受験者情報から適当に抜粋した情報の変�
 df={'受験者数':[51727,45173,28572,27854],
      '実受験者数':[39830,35898,2,22626],
      '合格者数':[7255,3091,5440,6932],
-     }
+}
 df=pd.DataFrame(df,index=['2020.11','2021.02','2021.06','2021.11'])
 pd.options.display.float_format = '{:.2f}'.format
 df["合格率"]=df["合格者数"]/df['実受験者数']
@@ -77,19 +77,10 @@ plt.show()
 st.pyplot(fig)
 st.text('')
 
-
 st.subheader('資料2.データ取り込みからデータの可視化')
 """
 2019年度の全国ごみ排出量をCSVから読み込み整えたうえで可視化
-"""
-
-import os
-import pathlib
-                       
-path = os.path.dirname(__file__)
-my_file = path+'./data/ごみ排出量全国.csv'
-
-
+"""                      
 url = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%93%E3%82%99%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%E5%85%A8%E5%9B%BD.csv'
 garbage = pd.read_csv(url)
 url2 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%94%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%EF%BC%BF%E6%9D%B1%E6%97%A5%E6%9C%AC.csv'
@@ -98,7 +89,6 @@ url3 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%94%E3
 west_garbage = pd.read_csv(url3)
 url4 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E7%B7%AF%E5%BA%A6_%E7%B5%8C%E5%BA%A6.csv'
 lat_lon = pd.read_csv(url4)
-
 
 map = pd.merge(garbage,lat_lon, on='県名')
 map2=map.set_index('時点')
@@ -141,7 +131,9 @@ east2019["割合"]=east2019['ごみ総排出量（総量）【ｔ】']/sums_east
 west2019["割合"]=west2019['ごみ総排出量（総量）【ｔ】']/sums_west
 
 st.subheader('２０１９年ごみ総排出量')
-graph_layout=go.Layout(width=900,height=500,margin=dict(l=25, r=50, t=10, b=50, autoexpand=False),yaxis={"range":[1,5000000]},  
+graph_layout=go.Layout(width=900,height=500,
+                       margin=dict(l=25, r=50, t=10, b=50, 
+                       autoexpand=False),yaxis={"range":[1,5000000]},  
 )
 x=go.Bar(y=map2019['ごみ総排出量（総量）【ｔ】'],x=map2019['県名'])
 fig = go.Figure(data=x,layout=graph_layout)
@@ -159,9 +151,6 @@ with col3:
 with col4:
     st.text('★東西の全国比率') 
     st.table(height_df)
-    st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
-    
-    
     
 west._df = st.checkbox('2019年東日本.DataFrame')
 if west._df == True:
