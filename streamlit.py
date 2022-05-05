@@ -159,7 +159,7 @@ with col3:
 with col4:
     st.text('★東西の全国比率') 
     st.table(height_df)
-    st.markdown(get_binary_file_downloader_html('ごみ排出量全国.csv', 'My Data'), unsafe_allow_html=True)
+    st.markdown(get_binary_file_downloader_html(garbage, 'My Data'), unsafe_allow_html=True)
     
     
     
