@@ -7,7 +7,7 @@ import pydeck as pdk
 import os
 import base64
 
-#データの詳細を確認する際に使用いたしました
+#事前処理確認時に使用
 #def check(gulaf):
 #    print(':::::::::データサイズ:::::\n', gulaf.shape)
 #    print('::::::::: index:::::::::\n', gulaf.index)
@@ -80,6 +80,7 @@ st.text('')
 st.subheader('資料2.データ取り込みからデータの可視化')
 """
 2019年度の全国ごみ排出量をCSVから読み込み整えたうえで可視化
+pandasになれる為、多めのCSVファイルを使用しています。
 """                      
 url = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%93%E3%82%99%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%E5%85%A8%E5%9B%BD.csv'
 garbage = pd.read_csv(url)
