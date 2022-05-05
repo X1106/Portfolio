@@ -14,6 +14,13 @@ def check(gulaf):
     print('::::::::: カラム名:::::::::\n', gulaf.columns)
     print('::::::::: データ型:::::::::\n', gulaf.dtypes) 
 
+def get_binary_file_downloader_html(bin_file, file_label='File'):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
+    return href
 
 st.title('Portfolio参考資料')
 """
@@ -152,15 +159,7 @@ with col3:
 with col4:
     ★東西の全国比率 
     st.table(height_df)
-
-    def get_binary_file_downloader_html(bin_file, file_label='File'):
-        with open(bin_file, 'rb') as f:
-            data = f.read()
-            bin_str = base64.b64encode(data).decode()
-            href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
-    return href
-
-st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
+    st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
     
     
     
