@@ -79,7 +79,7 @@ import pathlib
                        
 
 garbage = pd.read_csv('./data/ごみ排出量全国.csv')
-west_garbage= pd.read_csv('/data/ごみ排出量＿西日本.csv')
+west_garbage= pd.read_csv('data/ごみ排出量＿西日本.csv')
 lat_lon= pd.read_csv('./data/緯度_経度.csv')
 east_garbage = pd.read_csv('./data/ごみ排出量＿東日本.csv')
 
