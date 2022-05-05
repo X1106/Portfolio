@@ -75,10 +75,10 @@ st.subheader('資料2.データ取り込みからデータの可視化')
 """
 
 import os
-file = os.path.abspath("./data/ごみ排出量全国.csv")
+file = os.path.abspath('./data/ごみ排出量全国.csv')
 garbage = pd.read_csv(file)
 
-file2 = os.path.abspath("./data/ごみ排出量＿西日本.csv")
+file2 = os.path.abspath('./data/ごみ排出量＿西日本.csv')
 west_garbage = pd.read_csv(file2)
 
 lat_lon= pd.read_csv('data/緯度_経度.csv')
