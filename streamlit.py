@@ -80,7 +80,10 @@ import pathlib
 path = os.path.dirname(__file__)
 my_file = path+'./data/ごみ排出量全国.csv'
 
-garbage = pd.read_csv(my_file)
+
+url = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%93%E3%82%99%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%E5%85%A8%E5%9B%BD.csv'
+garbage = pd.read_csv(url)
+
 west_garbage= pd.read_csv('data/ごみ排出量＿西日本.csv')
 lat_lon= pd.read_csv('./data/緯度_経度.csv')
 east_garbage = pd.read_csv('/Portfolio/data/ごみ排出量＿東日本.csv')
