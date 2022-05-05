@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import plotly.graph_objects as go
 import pydeck as pdk
+import os
+import base64
 
 #データの詳細を確認する際に使用いたしました
 def check(gulaf):
@@ -148,20 +150,20 @@ with col3:
     plt.show()
     st.pyplot(fig)
 with col4:
-    """
-    """
-    """
-    """
-    """
-    """
-    """
-    """
-    """
     ★東西の全国比率 
-    """
-    """
-    """
     st.table(height_df)
+
+def get_binary_file_downloader_html(bin_file, file_label='File'):
+    with open(bin_file, 'rb') as f:
+        data = f.read()
+    bin_str = base64.b64encode(data).decode()
+    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
+    return href
+
+st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
+    
+    
+    
 west._df = st.checkbox('2019年東日本.DataFrame')
 if west._df == True:
     st.write(east2019.loc[['2019年度']])
