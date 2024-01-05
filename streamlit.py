@@ -1,81 +1,14 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
+import warnings
 import streamlit as st
+warnings.simplefilter('ignore')
+font_path = 'TakaoPGothic.ttf'
+font_property = FontProperties(fname=font_path)
 import plotly.graph_objects as go
 import pydeck as pdk
-import os
-import base64
-import re
-import MeCab
-import ipadic
-import itertools
-import pandas as pd
-from collections import Counter
-import collections
-from pyvis.network import Network
-
-import csv
-
-#csvファイルを指定
-MyPath = '共起ネット.csv'
-
-#csvファイルを読み込み
-rows = []
-with open(MyPath) as f:
-    reader = csv.reader(f)
-    for row in reader:
-        rows.append(row)
-
-sentences_combs = [list(itertools.combinations(sentence,2)) for sentence in rows]
-sentences_combs[0:10]
-
-
-words_combs = [[tuple(sorted(words)) for words in sentence] for sentence in sentences_combs]
-words_combs[0]
-
-
-import collections
-ct = collections.Counter(target_combs)
-ct.most_common()[:10]
-
-df = pd.DataFrame([{"1番目" : i[0][0], "2番目": i[0][1], "count":i[1]} for i in ct.most_common()])
-
-df[:50]
-
-garbage = df[:1000]
-got_net = Network(height="750px", width="100%", bgcolor="#ffffff", font_color="#800080", notebook=True)
-
-got_net.barnes_hut()
-
-got_data = garbage[:500]
-
-sources = got_data['1番目']
-targets = got_data['2番目']
-weights = got_data['count']
-edge_data = zip(sources, targets, weights)
-
-
-for e in edge_data:
-    src = e[0]
-    dst = e[1]
-    w = e[2]
-    
-    got_net.add_node(src, src, title=src)
-    got_net.add_node(dst, dst, title=dst)
-    got_net.add_edge(src, dst, value=w)
-    
-
-neighbor_map = got_net.get_adj_list()
-
-# add neighbor data to node hover data
-for node in got_net.nodes:
-    node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
-    node["value"] = len(neighbor_map[node["id"]])
-
-
-got_net.show_buttons()
-got_net.show("pyvis7-2.html")
 
 
 
@@ -86,41 +19,38 @@ got_net.show("pyvis7-2.html")
 
 
 
-#事前処理確認時に使用
-#def check(gulaf):
-#    print(':::::::::データサイズ:::::\n', gulaf.shape)
-#    print('::::::::: index:::::::::\n', gulaf.index)
-#    print('::::::::: カラム名:::::::::\n', gulaf.columns)
-#    print('::::::::: データ型:::::::::\n', gulaf.dtypes) 
-#編集中
-#def get_binary_file_downloader_html(bin_file, file_label='File'):
-#    with open(bin_file, 'rb') as f:
-#        data = f.read()
 
-#    bin_str = base64.b64encode(data).decode()
-#    href = f'<a href="data:application/octet-stream;base64,{bin_str}" download="{os.path.basename(bin_file)}">Download {file_label}</a>'
-#    return href
-#st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
 
+#データの詳細を確認する際に使用いたしました
+def check(gulaf):
+    print(':::::::::データサイズ:::::\n', gulaf.shape)
+    print('::::::::: index:::::::::\n', gulaf.index)
+    print('::::::::: カラム名:::::::::\n', gulaf.columns)
+    print('::::::::: データ型:::::::::\n', gulaf.dtypes) 
+
+
+st.title('Portfolio参考資料')
 """
 ★資料1_pandasを使ってみた
 pandas.DataFrameの基本操作
 変更と追加/欠損値の変更/データの可視化
 
-
+★資料2_データ取り込みからデータの可視化
 pandas,matplotlibの基本操作
 csv読み込み/データの読み込み/データ参照/並び替え/欠損値の処理/
 グループ化/データマージデータの可視化/など
 
 ※使用した事前処理や可視化に伴うソースコードは
-GitHubをご確認頂けると幸いです。
+エントリーメールに添付させていただました。
+ご確認頂けると幸いです。
 """
 st.subheader('資料１.パンダスを使ってみる')
+st.text('★簿記二級受験者情報から適当に抜粋した情報の変更/追加')
 
 df={'受験者数':[51727,45173,28572,27854],
      '実受験者数':[39830,35898,2,22626],
      '合格者数':[7255,3091,5440,6932],
-}
+     }
 df=pd.DataFrame(df,index=['2020.11','2021.02','2021.06','2021.11'])
 pd.options.display.float_format = '{:.2f}'.format
 df["合格率"]=df["合格者数"]/df['実受験者数']
@@ -132,12 +62,12 @@ df.iloc[2,1]=22711
 df["合格率"]=df["合格者数"]/df['実受験者数']    
 df
 
-st.text('★実受験者数と合格者数の割合を可視化してみる')
+st.text('★実受験者数と合格者数の割合kを可視化してみる')
 fig = plt.figure(figsize=(23,13))
 ax = plt.axes()
 
-ax.set_xlabel("(年.月)",fontsize=20)
-ax.set_ylabel("人数",fontsize=20)
+ax.set_xlabel("(年.月)", fontproperties=font_property,fontsize=20)
+ax.set_ylabel("人数", fontproperties=font_property,fontsize=20)
 
 height1 = df['実受験者数']
 height2 = df['合格者数']
@@ -154,16 +84,16 @@ plt.show()
 st.pyplot(fig)
 st.text('')
 
+
 st.subheader('資料2.データ取り込みからデータの可視化')
-#pandasになれる為、多めのCSVファイルを使用しています。
-url = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%93%E3%82%99%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%E5%85%A8%E5%9B%BD.csv'
-garbage = pd.read_csv(url)
-url2 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%94%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%EF%BC%BF%E6%9D%B1%E6%97%A5%E6%9C%AC.csv'
-east_garbage = pd.read_csv(url2)
-url3 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E3%81%94%E3%81%BF%E6%8E%92%E5%87%BA%E9%87%8F%EF%BC%BF%E8%A5%BF%E6%97%A5%E6%9C%AC.csv'
-west_garbage = pd.read_csv(url3)
-url4 = 'https://raw.githubusercontent.com/X1106/Portfolio/main/data/%E7%B7%AF%E5%BA%A6_%E7%B5%8C%E5%BA%A6.csv'
-lat_lon = pd.read_csv(url4)
+"""
+2019年度の全国ごみ排出量をCSVから読み込み整えたうえで可視化
+"""
+
+garbage = pd.read_csv('ごみ排出量_全国2.csv')
+west_garbage = pd.read_csv('ごみ排出量＿西日本.csv')
+east_garbage = pd.read_csv('ごみ排出量＿東日本.csv')
+lat_lon= pd.read_csv('緯度_経度.csv')
 
 map = pd.merge(garbage,lat_lon, on='県名')
 map2=map.set_index('時点')
@@ -206,9 +136,7 @@ east2019["割合"]=east2019['ごみ総排出量（総量）【ｔ】']/sums_east
 west2019["割合"]=west2019['ごみ総排出量（総量）【ｔ】']/sums_west
 
 st.subheader('２０１９年ごみ総排出量')
-graph_layout=go.Layout(width=900,height=500,
-                       margin=dict(l=25, r=50, t=10, b=50, 
-                       autoexpand=False),yaxis={"range":[1,5000000]},  
+graph_layout=go.Layout(width=900,height=500,margin=dict(l=25, r=50, t=10, b=50, autoexpand=False),yaxis={"range":[1,5000000]},  
 )
 x=go.Bar(y=map2019['ごみ総排出量（総量）【ｔ】'],x=map2019['県名'])
 fig = go.Figure(data=x,layout=graph_layout)
@@ -224,12 +152,23 @@ with col3:
     plt.show()
     st.pyplot(fig)
 with col4:
-    st.text('★東西の全国比率') 
+    """
+    """
+    """
+    """
+    """
+    """
+    """
+    """
+    """
+    ★東西の全国比率 
+    """
+    """
+    """
     st.table(height_df)
-    
 west._df = st.checkbox('2019年東日本.DataFrame')
 if west._df == True:
-    st.write(east2019.loc[['2019年度']])
+    st.write(map2019[['2019年度']])
 
 west._df = st.checkbox('2019年西日本.DataFrame')
 if west._df == True:
