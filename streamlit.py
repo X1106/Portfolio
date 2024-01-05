@@ -23,7 +23,6 @@ import base64
 #    return href
 #st.markdown(get_binary_file_downloader_html('garbage', 'My Data'), unsafe_allow_html=True)
 
-st.title('Portfolio参考資料')
 """
 ★資料1_pandasを使ってみた
 pandas.DataFrameの基本操作
