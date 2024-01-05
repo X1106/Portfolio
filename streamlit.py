@@ -6,6 +6,85 @@ import plotly.graph_objects as go
 import pydeck as pdk
 import os
 import base64
+import re
+import MeCab
+import ipadic
+import itertools
+import pandas as pd
+from collections import Counter
+import collections
+from pyvis.network import Network
+
+import csv
+
+#csvファイルを指定
+MyPath = '共起ネット.csv'
+
+#csvファイルを読み込み
+rows = []
+with open(MyPath) as f:
+    reader = csv.reader(f)
+    for row in reader:
+        rows.append(row)
+
+sentences_combs = [list(itertools.combinations(sentence,2)) for sentence in rows]
+sentences_combs[0:10]
+
+
+words_combs = [[tuple(sorted(words)) for words in sentence] for sentence in sentences_combs]
+words_combs[0]
+
+
+import collections
+ct = collections.Counter(target_combs)
+ct.most_common()[:10]
+
+df = pd.DataFrame([{"1番目" : i[0][0], "2番目": i[0][1], "count":i[1]} for i in ct.most_common()])
+
+df[:50]
+
+garbage = df[:1000]
+got_net = Network(height="750px", width="100%", bgcolor="#ffffff", font_color="#800080", notebook=True)
+
+got_net.barnes_hut()
+
+got_data = garbage[:500]
+
+sources = got_data['1番目']
+targets = got_data['2番目']
+weights = got_data['count']
+edge_data = zip(sources, targets, weights)
+
+
+for e in edge_data:
+    src = e[0]
+    dst = e[1]
+    w = e[2]
+    
+    got_net.add_node(src, src, title=src)
+    got_net.add_node(dst, dst, title=dst)
+    got_net.add_edge(src, dst, value=w)
+    
+
+neighbor_map = got_net.get_adj_list()
+
+# add neighbor data to node hover data
+for node in got_net.nodes:
+    node["title"] += " Neighbors:<br>" + "<br>".join(neighbor_map[node["id"]])
+    node["value"] = len(neighbor_map[node["id"]])
+
+
+got_net.show_buttons()
+got_net.show("pyvis7-2.html")
+
+
+
+
+
+
+
+
+
 
 #事前処理確認時に使用
 #def check(gulaf):
